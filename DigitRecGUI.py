@@ -52,7 +52,7 @@ class DigitRecGUI:
     def create_mainUI(self):
         canvas_box = tk.Frame(self.window, background='#353535')
         canvas_box.pack(fill='both')
-        self.canvas = tk.Canvas(canvas_box, width=375, height=375, background='#505050', highlightthickness=0)
+        self.canvas = tk.Canvas(canvas_box, width=280, height=280, background='#505050', highlightthickness=0)
         self.canvas.pack(anchor='nw', padx=25, pady=25)
 
         # self.canvas.create_line(372, 0, 372, 375, width=5, fill='#202020')  # Right line
@@ -89,7 +89,7 @@ class DigitRecGUI:
         self.predict()
         self.predict_callback(self.image, self.current_label)  
     def predict(self):
-        image = Image.new("L", (375, 375), 'white')
+        image = Image.new("L", (280, 280), 'white')
         draw = ImageDraw.Draw(image)
         for point in self.points:
             draw.ellipse([point[0] - self.pen_width, point[1] - self.pen_width, point[0] + self.pen_width, point[1] + self.pen_width], fill='black')
@@ -124,7 +124,6 @@ class DigitRecGUI:
             print("Failed")
             
         if self.current_label is not None:
-            print(self.image.shape)
             self.trainImages.append(self.image)
             self.trainLabels.append(int(self.current_label))
             np.savez('data.npz',images = self.trainImages,labels = self.trainLabels)

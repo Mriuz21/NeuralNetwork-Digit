@@ -66,7 +66,17 @@ class Model:
 
     def train(self):
       # Number of batches
-      n_batches = int(np.ceil(self.X_train.shape[0] / self.batch_size))
+      self.batch_size = int(self.X_train.shape[0] / 10)
+      while self.batch_size > 100:
+          if self.batch_size % 2 == 0:
+              self.batch_size = int(self.batch_size / 2)
+          elif self.batch_size % 3 == 0:
+              self.batch_size = int(self.batch_size / 3)
+          elif self.batch_size % 5 == 0:
+              self.batch_size = int(self.batch_size/ 5) 
+          else:
+              break  
+      n_batches = int(self.X_train.shape[0] / self.batch_size)
 
       for epoch in range(self.epochs):
           # Initialize list to store batch losses
@@ -78,7 +88,6 @@ class Model:
               end = start + self.batch_size
               X_batch = self.X_train[start:end]
               y_batch = self.Y_train[start:end]
-
               # One-hot encode y_batch
               y_batch_one_hot = np.eye(10)[y_batch]
 
@@ -152,7 +161,7 @@ class Model:
         X_train = data['images']
         Y_train = data['labels']
 
-        print("Shapes of loaded images:", [img.shape for img in X_train])
+       
 
         # Normalize the images
         X_train = X_train / 255.0
